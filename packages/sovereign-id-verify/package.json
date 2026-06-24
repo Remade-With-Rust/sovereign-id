@@ -1,0 +1,53 @@
+{
+  "name": "@matanetwork/sovereign-id-verify",
+  "version": "0.1.1",
+  "description": "Node/Deno/Bun verifier for MATA Sovereign ID (mID) tokens. Runs the four-step verification (genesis self-signature → roster chain → head VM → JWS signature) entirely locally — zero runtime calls to MATA infrastructure.",
+  "type": "module",
+  "main": "src/index.js",
+  "types": "src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "import": "./src/index.js"
+    }
+  },
+  "sideEffects": false,
+  "scripts": {
+    "test": "node --test tests/index.test.js",
+    "prepublishOnly": "node --test tests/index.test.js"
+  },
+  "files": [
+    "src/",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "mata",
+    "sovereign-id",
+    "mid",
+    "verify",
+    "verifier",
+    "jwt",
+    "ecdsa",
+    "p256",
+    "did",
+    "did-mata",
+    "permissionless-auth"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "homepage": "https://github.com/Remade-With-Rust/sovereign-id/tree/main/packages/sovereign-id-verify#readme",
+  "bugs": {
+    "url": "https://github.com/Remade-With-Rust/sovereign-id/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Remade-With-Rust/sovereign-id.git",
+    "directory": "packages/sovereign-id-verify"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

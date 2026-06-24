@@ -1,0 +1,52 @@
+{
+  "name": "@matanetwork/sovereign-id",
+  "version": "0.1.1",
+  "description": "Page-side SDK for MATA Sovereign ID — the permissionless self-issued identity protocol (mID). Probes for the MATA browser extension or native app, dispatches sign-in requests, and resolves with a signed JWT.",
+  "type": "module",
+  "main": "src/index.js",
+  "types": "src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "import": "./src/index.js"
+    }
+  },
+  "sideEffects": false,
+  "scripts": {
+    "test": "node --test tests/index.test.js",
+    "prepublishOnly": "node --test tests/index.test.js"
+  },
+  "files": [
+    "src/",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "mata",
+    "sovereign-id",
+    "mid",
+    "sso",
+    "identity",
+    "did",
+    "self-sovereign",
+    "passwordless",
+    "did-mata",
+    "permissionless-auth"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "homepage": "https://github.com/Remade-With-Rust/sovereign-id/tree/main/packages/sovereign-id#readme",
+  "bugs": {
+    "url": "https://github.com/Remade-With-Rust/sovereign-id/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Remade-With-Rust/sovereign-id.git",
+    "directory": "packages/sovereign-id"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

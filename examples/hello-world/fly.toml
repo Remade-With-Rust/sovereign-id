@@ -1,0 +1,40 @@
+# fly.toml app configuration file generated for sovereign-id-hello-world on 2026-06-04T15:06:58-07:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'sovereign-id-hello-world'
+primary_region = 'iad'
+
+[build]
+  dockerfile = 'Dockerfile'
+
+[env]
+  NODE_ENV = 'production'
+  # The JWT's `aud` must match this exactly. Update the value if you
+  # rename the fly app or attach a custom domain. The SDK on the page
+  # sends `window.location.origin` as the audience; both sides must
+  # agree or every verify fails with `audience_mismatch`.
+  RP_ORIGIN = 'https://sovereign-id-hello-world.fly.dev'
+
+[http_service]
+  internal_port = 3000
+  force_https = true
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
+
+  [[http_service.checks]]
+    interval = '15s'
+    timeout = '2s'
+    grace_period = '5s'
+    method = 'GET'
+    path = '/api/whoami'
+
+[[vm]]
+  size = 'shared-cpu-1x'
+  memory = '256mb'
+  cpu_kind = 'shared'
+  cpus = 1
+  memory_mb = 256

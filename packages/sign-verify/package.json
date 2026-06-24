@@ -1,0 +1,56 @@
+{
+  "name": "@matanetwork/sign-verify",
+  "version": "0.1.1",
+  "description": "Node/Deno/Bun verifier for MATA signed statements — sign-arbitrary-content tokens (documents, IAMHUMAN posts). Runs the same four-step self-contained verification as Sovereign ID (genesis self-signature → roster chain → head VM → JWS signature) entirely locally, then confirms the content hash — zero runtime calls to MATA infrastructure.",
+  "type": "module",
+  "main": "src/index.js",
+  "types": "src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "import": "./src/index.js"
+    }
+  },
+  "sideEffects": false,
+  "scripts": {
+    "test": "node --test tests/index.test.js",
+    "prepublishOnly": "node --test tests/index.test.js"
+  },
+  "files": [
+    "src/",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "mata",
+    "sign",
+    "signing",
+    "verify",
+    "verifier",
+    "document-signing",
+    "iamhuman",
+    "digital-signature",
+    "jws",
+    "ecdsa",
+    "p256",
+    "did",
+    "did-mata",
+    "pgp-alternative"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "homepage": "https://github.com/Remade-With-Rust/sovereign-id/tree/main/packages/sign-verify#readme",
+  "bugs": {
+    "url": "https://github.com/Remade-With-Rust/sovereign-id/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Remade-With-Rust/sovereign-id.git",
+    "directory": "packages/sign-verify"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

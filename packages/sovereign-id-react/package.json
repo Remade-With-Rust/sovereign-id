@@ -1,0 +1,70 @@
+{
+  "name": "@matanetwork/sovereign-id-react",
+  "version": "0.1.1",
+  "description": "React adapter for @matanetwork/sovereign-id — drop-in <SignInButton/>, useSignIn() hook, useResumePendingSignIn() boot helper. Lowers Sovereign ID RP integration from ~20 LOC to one import.",
+  "type": "module",
+  "main": "src/index.js",
+  "types": "src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "import": "./src/index.js"
+    }
+  },
+  "sideEffects": false,
+  "scripts": {
+    "test": "node --test tests/index.test.js",
+    "prepublishOnly": "node --test tests/index.test.js"
+  },
+  "files": [
+    "src/",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "mata",
+    "matanetwork",
+    "sovereign-id",
+    "mid",
+    "react",
+    "react-hook",
+    "sso",
+    "identity",
+    "did",
+    "did-mata",
+    "permissionless-auth",
+    "self-sovereign"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "homepage": "https://github.com/Remade-With-Rust/sovereign-id/tree/main/packages/sovereign-id-react#readme",
+  "bugs": {
+    "url": "https://github.com/Remade-With-Rust/sovereign-id/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Remade-With-Rust/sovereign-id.git",
+    "directory": "packages/sovereign-id-react"
+  },
+  "peerDependencies": {
+    "@matanetwork/sovereign-id": "^0.1.0",
+    "react": ">=17.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": false
+    },
+    "@matanetwork/sovereign-id": {
+      "optional": false
+    }
+  },
+  "devDependencies": {
+    "@matanetwork/sovereign-id": "^0.1.0",
+    "react": "^18.3.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

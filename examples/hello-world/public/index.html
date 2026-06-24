@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sovereign ID — Hello World</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+
+  <body>
+    <main>
+      <header>
+        <h1>Sovereign ID</h1>
+        <p class="subtitle">Hello-world demo — Phase 5 / mID Mission</p>
+      </header>
+
+      <section class="card" id="status-card">
+        <h2>Status</h2>
+        <div id="status">
+          <p class="muted">Not signed in.</p>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Sign in</h2>
+        <p class="muted">
+          The "real" SDK path (<code>@matanetwork/sovereign-id</code>) probes for the MATA
+          extension or native app first. If neither is installed, it falls back
+          to the dev-mode mock wallet so this demo runs without any platform
+          install.
+        </p>
+
+        <div class="button-row">
+          <button id="signin-real" class="btn btn-primary">
+            Sign in with Sovereign ID
+          </button>
+          <button id="signin-mock" class="btn btn-secondary">
+            Dev-mock sign-in (no extension required)
+          </button>
+        </div>
+
+        <p class="footnote">
+          <span id="extension-status">Detecting wallet…</span>
+        </p>
+      </section>
+
+      <section class="card">
+        <h2>Wire trace</h2>
+        <p class="muted">
+          The protocol-level events that just happened. Watch these populate
+          as you click Sign in.
+        </p>
+        <div id="trace">
+          <p class="muted">No requests yet.</p>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>What you're seeing</h2>
+        <ol>
+          <li>
+            <strong>Page issues a nonce.</strong> <code>GET /api/nonce</code>
+            returns a single-use random string the backend keeps tied to your
+            session. Replay defense — every JWT must carry this exact nonce.
+          </li>
+          <li>
+            <strong>Wallet produces a JWT.</strong> Mock wallet generates an
+            ECDSA P-256 keypair, derives <code>did:mata:&lt;base58-pubkey&gt;</code>
+            from it, self-signs the genesis roster, and mints a JWT against
+            your <code>rpOrigin</code> + nonce + requested claims.
+          </li>
+          <li>
+            <strong>Backend verifies.</strong>
+            <code>@matanetwork/sovereign-id-verify</code> runs the four-step check
+            entirely locally: genesis self-signature → roster chain → head VM
+            → JWS signature. <em>Zero MATA HTTP traffic.</em>
+          </li>
+          <li>
+            <strong>RP backend anchors on first sight.</strong> The DID +
+            genesis roster hash + current version go into the user table; on
+            subsequent sign-ins the backend asserts the same DID still
+            produces the same genesis hash.
+          </li>
+        </ol>
+      </section>
+    </main>
+
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

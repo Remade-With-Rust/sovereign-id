@@ -1,0 +1,14 @@
+{
+  "name": "sovereign-id",
+  "private": true,
+  "version": "0.0.0",
+  "description": "MATA Sovereign ID — permissionless, self-issued identity for the web. Self-contained JS/TS verification, zero runtime calls to MATA.",
+  "license": "MIT",
+  "workspaces": ["packages/*"],
+  "scripts": {
+    "test": "npm run test --workspaces --if-present"
+  },
+  "repository": { "type": "git", "url": "git+https://github.com/Remade-With-Rust/sovereign-id.git" },
+  "homepage": "https://github.com/Remade-With-Rust/sovereign-id#readme",
+  "bugs": { "url": "https://github.com/Remade-With-Rust/sovereign-id/issues" }
+}

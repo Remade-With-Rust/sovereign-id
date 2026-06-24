@@ -1,0 +1,21 @@
+{
+  "name": "sovereign-id-hello-world",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Runnable end-to-end demo of MATA Sovereign ID (mID) — Express RP backend + HTML page + dev-mode mock wallet. Demonstrates the protocol end-to-end without requiring the MATA extension or native app to be installed.",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node --test src/wallet-mock.test.js"
+  },
+  "dependencies": {
+    "@matanetwork/sovereign-id": "^0.1.0",
+    "@matanetwork/sovereign-id-verify": "^0.1.0",
+    "express": "^4.19.0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT"
+}
