@@ -420,6 +420,11 @@ function signInViaExtension(request, timeoutMs) {
  * @param {string} request.context - domain tag, e.g. "iamhuman"
  * @param {string} [request.contentType] - media type (default "text/plain")
  * @param {string | null} [request.nonce] - optional single-use nonce
+ * @param {"every-time"} [request.consent] - `"every-time"` makes the wallet
+ *   ask for this one signature and never remember the approval (for
+ *   statements that hand something over, like a device adoption). Omitted,
+ *   the wallet may reuse a standing grant for (origin, context). Wallets
+ *   that honour it set `window.__mata_mid__.statementConsentEveryTime`.
  * @param {object} [options]
  * @param {number} [options.timeoutMs] - request timeout (default 2 min)
  * @returns {Promise<{token: string, surface: "extension"}>}
@@ -435,6 +440,12 @@ export async function signStatement(request, options = {}) {
     throw new SignInError(
       ERR_INVALID_REQUEST,
       'signStatement requires { rpOrigin, content, context }',
+    );
+  }
+  if (request.consent !== undefined && request.consent !== 'every-time') {
+    throw new SignInError(
+      ERR_INVALID_REQUEST,
+      'signStatement consent must be "every-time" when given',
     );
   }
   const timeoutMs = options.timeoutMs ?? DEFAULT_TIMEOUT_MS;
@@ -494,6 +505,8 @@ function signStatementViaExtension(request, timeoutMs) {
       content: request.content,
       content_type: request.contentType ?? 'text/plain',
       nonce: request.nonce ?? null,
+      // Only sent when asked for, so older wallets see the 0.1.1 shape.
+      ...(request.consent ? { consent: request.consent } : {}),
     };
     window.postMessage(payload, '*');
 

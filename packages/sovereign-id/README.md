@@ -143,6 +143,36 @@ The stash lives in `sessionStorage` (per-tab, cleared on tab close).
 TTL = the original request's `timeoutMs`. Stale entries are silently
 dropped on read.
 
+### `signStatement(request, options?)`
+
+Asks the wallet to sign content as the user's personal DID and resolves
+with `{ token, surface: "extension" }`, where `token` is a self-contained
+`mata-sign` token. The private key never leaves the wallet. Extension
+surface only for now.
+
+```js
+import { signStatement } from '@matanetwork/sovereign-id';
+
+const { token } = await signStatement({
+  rpOrigin: 'https://acme.com',
+  context: 'iamhuman',            // domain tag the signature is bound to
+  content: 'Hello, world',        // the exact bytes to sign
+  // contentType: 'text/plain',   // default
+  // nonce: '...',                // optional single-use nonce
+  // consent: 'every-time',       // see below
+});
+```
+
+By default the wallet may remember a "Yes" for the pair (origin, context)
+and sign later requests without asking. Pass `consent: 'every-time'` for a
+statement that hands something over, such as a device adoption: the wallet
+then asks for this signature and does not remember the approval. Some
+contexts, such as `janus-adoption-v1`, are always every-time in the wallet,
+whatever the page sends. Wallets that honour the field set
+`window.__mata_mid__.statementConsentEveryTime === true`. An older wallet
+ignores it, so check that flag first when an unattended signature would be
+unsafe.
+
 ### `hasExtension()`
 
 Returns `true` when `window.__mata_mid__` (set by the extension's

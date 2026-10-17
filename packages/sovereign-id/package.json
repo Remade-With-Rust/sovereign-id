@@ -1,6 +1,6 @@
 {
   "name": "@matanetwork/sovereign-id",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Page-side SDK for MATA Sovereign ID — the permissionless self-issued identity protocol (mID). Probes for the MATA browser extension or native app, dispatches sign-in requests, and resolves with a signed JWT.",
   "type": "module",
   "main": "src/index.js",

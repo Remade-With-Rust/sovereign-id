@@ -12,6 +12,8 @@ export const WINDOW_MID_GLOBAL: '__mata_mid__';
 export const MESSAGE_DISCRIMINATOR: '__mata_mid_v1';
 export const KIND_SIGN_IN_REQUEST: 'sign_in_request';
 export const KIND_SIGN_IN_RESPONSE: 'sign_in_response';
+export const KIND_STATEMENT_SIGN_REQUEST: 'statement_sign_request';
+export const KIND_STATEMENT_SIGN_RESPONSE: 'statement_sign_response';
 export const URL_SCHEME: 'mata-mid';
 export const SCHEME_PATH_REQUEST: 'request';
 export const QUERY_PARAM_PAYLOAD: 'payload';
@@ -152,6 +154,40 @@ export interface SignInSuccess {
   surface: 'extension' | 'native_app';
 }
 
+export interface SignStatementRequest {
+  /** The requesting site's bare origin, e.g. `"https://acme.com"`. */
+  rpOrigin: string;
+  /** The exact content to sign. */
+  content: string;
+  /** Domain tag, e.g. `"iamhuman"` or `"janus-adoption-v1"`. */
+  context: string;
+  /** Media type of `content`. Default: `"text/plain"`. */
+  contentType?: string;
+  /** Optional single-use nonce. */
+  nonce?: string | null;
+  /**
+   * `"every-time"`: the wallet asks for this signature and never remembers
+   * the approval, for statements that hand something over (a device
+   * adoption). Omitted, the wallet may reuse a standing grant for
+   * (origin, context). Wallets that honour it set
+   * `window.__mata_mid__.statementConsentEveryTime`; an older wallet
+   * ignores the field, so check that flag first when it matters.
+   */
+  consent?: 'every-time';
+}
+
+export interface SignStatementOptions {
+  /** Hard request timeout. Default: 120 seconds. */
+  timeoutMs?: number;
+}
+
+export interface SignStatementSuccess {
+  /** Self-contained `mata-sign` token. */
+  token: string;
+  /** Which surface produced the token. */
+  surface: 'extension';
+}
+
 export class SignInError extends Error {
   constructor(code: ErrorCode, message: string);
   readonly code: ErrorCode;
@@ -163,6 +199,15 @@ export function signIn(
   request: SignInRequest,
   options?: SignInOptions
 ): Promise<SignInSuccess>;
+
+/**
+ * Ask the user's MATA wallet to sign content as their personal DID. The
+ * private key never leaves the wallet. Extension surface only for now.
+ */
+export function signStatement(
+  request: SignStatementRequest,
+  options?: SignStatementOptions
+): Promise<SignStatementSuccess>;
 
 export function hasExtension(): boolean;
 
