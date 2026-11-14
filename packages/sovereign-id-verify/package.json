@@ -1,6 +1,6 @@
 {
   "name": "@matanetwork/sovereign-id-verify",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Node/Deno/Bun verifier for MATA Sovereign ID (mID) tokens. Runs the four-step verification (genesis self-signature → roster chain → head VM → JWS signature) entirely locally — zero runtime calls to MATA infrastructure.",
   "type": "module",
   "main": "src/index.js",

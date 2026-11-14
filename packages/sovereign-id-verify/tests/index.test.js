@@ -367,6 +367,37 @@ test('verifyResponse rejects tampered payload', async () => {
   );
 });
 
+// A forger takes a rostered verification-method id, attaches their own key,
+// and signs with it. The JWS step verifies against the embedded key, so the
+// head-roster step must bind the key, not just the id (mirrors the Rust
+// mid-verify test `a_rostered_id_with_a_strangers_key_is_rejected`).
+test('verifyResponse rejects a rostered id carrying a stranger\'s key', async () => {
+  const { payload } = await mintTestJwt();
+  const stranger = await makeKey('stranger');
+  const forged = {
+    ...payload,
+    embedded_verification_method: {
+      ...payload.embedded_verification_method,
+      public_key_multibase: stranger.multibase,
+    },
+  };
+  const headerB64 = base64UrlEncodeString('{"alg":"ES256","typ":"JWT"}');
+  const payloadB64 = base64UrlEncodeString(JSON.stringify(forged));
+  const signingInput = `${headerB64}.${payloadB64}`;
+  const sig = await signBytes(stranger.privateKey, new TextEncoder().encode(signingInput));
+  const jwt = `${signingInput}.${base64UrlEncodeBytes(sig)}`;
+
+  await assert.rejects(
+    () =>
+      verifyResponse(jwt, {
+        expectedAudience: 'https://acme.com',
+        expectedNonce: 'test-nonce',
+        nowUnixSecs: 1_716_700_010,
+      }),
+    (err) => err instanceof VerifyError && err.code === 'current_vm_not_in_head_roster'
+  );
+});
+
 // ─── Rollback check ────────────────────────────────────────────────────────
 
 test('checkRollback passes when lastSeenVersion is null', async () => {

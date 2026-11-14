@@ -85,7 +85,8 @@ identifier. Single-device wallets use `"device-0"`; multi-device
 wallets assign distinct kids per device.
 
 The `embedded_verification_method` on the JWT is the key that signed
-THIS token. Its `id` MUST appear in the head roster (the last entry
+THIS token. It MUST match an entry in the head roster exactly (same
+`id`, `public_key_multibase`, `type` and `controller`; the last entry
 in `embedded_roster_chain`, or `embedded_genesis_roster` if the
 chain is empty).
 
@@ -150,9 +151,12 @@ Versions must strictly increase. Genesis is version 1; the first
 chain entry must be version 2.
 
 **Head VM check.** After the chain is fully verified, the JWT's
-`embedded_verification_method.id` must equal one of the VM `id`s in
-the head roster (last entry's `verification_methods`, or the genesis
-roster's if the chain is empty). Otherwise →
+`embedded_verification_method` must equal one of the VMs in the head
+roster on `id`, `public_key_multibase`, `type` and `controller`, not
+just `id`: the JWS is verified against the embedded key, so an id-only
+match would let anyone pair a rostered id with their own key. (The head
+roster is the last entry's `verification_methods`, or the genesis
+roster's if the chain is empty.) Otherwise →
 `head_vm_not_in_roster`.
 
 ## JWS outer signature
@@ -218,7 +222,7 @@ input: jwt
 3. Decode payload             → MidJwtPayload
 4. Genesis self-sig check    → using did's recovered key
 5. Roster chain walk         → each entry's signature against prior roster
-6. Head VM membership check  → embedded_verification_method.id in head roster
+6. Head VM membership check  → embedded_verification_method (id + key) in head roster
 7. JWS outer sig check       → using head VM's recovered key
 8. Audience match            → payload.aud === expectedAudience
 9. Nonce match               → payload.nonce === expectedNonce

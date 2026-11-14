@@ -221,7 +221,7 @@ Runs the four-step verification entirely locally:
 
 1. **Genesis self-signature** — the embedded genesis roster must be signed by the key the DID encodes.
 2. **Roster chain** — each chain entry must be signed by a verification method present in the prior roster.
-3. **Head VM** — the JWT's `embedded_verification_method` must appear in the head roster.
+3. **Head VM** — the JWT's `embedded_verification_method` must match a head-roster entry exactly, key included (an id-only match is rejected).
 4. **JWS outer signature** — the JWT itself must be signed by that head VM.
 
 `VerifyConfig`:

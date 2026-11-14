@@ -269,8 +269,19 @@ function checkCurrentVmInHead(payload) {
     chain.length > 0
       ? chain[chain.length - 1].verification_methods
       : payload.embedded_genesis_roster.verification_methods;
-  const currentId = payload.embedded_verification_method.id;
-  if (!headVms.some((vm) => vm.id === currentId)) {
+  // The JWS signature is checked against the key embedded in the token, so the
+  // whole method must match a head-roster entry, key included. An id-only match
+  // lets anyone pair a rostered id with their own key and pass.
+  const current = payload.embedded_verification_method;
+  const currentId = current.id;
+  const rostered = headVms.some(
+    (vm) =>
+      vm.id === current.id &&
+      vm.public_key_multibase === current.public_key_multibase &&
+      vm.type === current.type &&
+      vm.controller === current.controller
+  );
+  if (!rostered) {
     throw new VerifyError(
       'current_vm_not_in_head_roster',
       `'${currentId}' is not in the head roster — device may have been revoked`

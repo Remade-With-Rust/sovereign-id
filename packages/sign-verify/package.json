@@ -1,6 +1,6 @@
 {
   "name": "@matanetwork/sign-verify",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Node/Deno/Bun verifier for MATA signed statements — sign-arbitrary-content tokens (documents, IAMHUMAN posts). Runs the same four-step self-contained verification as Sovereign ID (genesis self-signature → roster chain → head VM → JWS signature) entirely locally, then confirms the content hash — zero runtime calls to MATA infrastructure.",
   "type": "module",
   "main": "src/index.js",
